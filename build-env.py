@@ -121,12 +121,12 @@ def getCXXFLAGS(mode, warn, warnings_as_errors, CXX):
 
 def getNVCCFLAGS(mode, arch):   
   result = ['-arch=' + arch]
-
-  if platform.platform()[:6] == 'Darwin' and \
-      platform.machine()[-2:] == '64':
-    result.append('-m64')
-  else:
-    result.append('-m32')
+  
+  if platform.platform()[:6] == 'Darwin':
+    if platform.machine()[-2:] == '64':
+      result.append('-m64')
+    else:
+      result.append('-m32')
   
   if mode == 'debug':
     # turn on debug mode
@@ -158,7 +158,7 @@ def Environment():
 
   # add a variable to handle compute capability
   vars.Add(EnumVariable('arch', 'Compute capability code generation', 'sm_10',
-                        allowed_values = ('sm_10', 'sm_11', 'sm_12', 'sm_13', 'sm_20', 'sm_21')))
+                        allowed_values = ('sm_10', 'sm_11', 'sm_12', 'sm_13', 'sm_20', 'sm_21', 'sm_30')))
 
   # add a variable to handle warnings
   if os.name == 'posix':
@@ -168,9 +168,6 @@ def Environment():
 
   # add a variable to treat warnings as errors
   vars.Add(BoolVariable('Werror', 'Treat warnings as errors', 0))
-
-  # add a variable to filter source files by a regex
-  vars.Add('tests', help='Filter test files using a regex')
 
   # create an Environment
   env = OldEnvironment(tools = getTools(), variables = vars)
