@@ -1,4 +1,4 @@
-CUDA Scons
+CUDA SCons
 ==================================
 
 Borrowed from [thrust](http://thrust.github.com), these
