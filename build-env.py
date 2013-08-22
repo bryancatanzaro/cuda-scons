@@ -146,7 +146,7 @@ def getLINKFLAGS(mode, LINK):
   return result
 
 
-def Environment():
+def Environment(*args, **keywords):
   # allow the user discretion to choose the MSVC version
   vars = Variables()
   if os.name == 'nt':
@@ -170,7 +170,7 @@ def Environment():
   vars.Add(BoolVariable('Werror', 'Treat warnings as errors', 0))
 
   # create an Environment
-  env = OldEnvironment(tools = getTools(), variables = vars)
+  env = OldEnvironment(*args, tools = getTools(), variables = vars, **keywords)
 
   # get the absolute path to the directory containing
   # this source file
